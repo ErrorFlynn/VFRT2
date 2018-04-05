@@ -57,7 +57,6 @@ void RunGUI()
 	if(conf.metric.mainfm.width == 0) r = API::make_center(1400, 800);
 	else r = conf.metric.mainfm;
 	form fm(r, appear::decorate<appear::minimize, appear::maximize, appear::sizable>());
-	//grabber grabby(fm);
 	API::track_window_size(fm, {1234, 567}, false);
 	if(conf.metric.mainfm.width == 0)
 	{
