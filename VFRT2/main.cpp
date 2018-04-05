@@ -70,7 +70,6 @@ void RunGUI()
 	fm.icon(paint::image(wstring(self_path)));
 	fm.events().unload([&fm] { conf.metric.mainfm = {fm.pos().x, fm.pos().y, fm.size().width, fm.size().height}; });
 	mainform = &fm;
-	//NewData();
 
 	coollist lb1(fm, true);
 	list1 = &lb1;
