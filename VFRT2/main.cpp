@@ -196,6 +196,7 @@ void RunGUI()
 	chkwords.caption("Word(s)");
 	chkwords.typeface({"Tahoma", 10});
 	chkwords.bgcolor(colors::white);
+	chkwords.check(conf.words);
 	chkfnames.caption("File names");
 	chkfnames.typeface({"Tahoma", 10});
 	chkfnames.bgcolor(colors::white);
@@ -206,8 +207,6 @@ void RunGUI()
 		if(!conf.fnames && filterbox->caption().size())
 		{
 			PopulateList();
-			if(db.index.empty()) filterbox->fgcolor(color_rgb(0xbb2222));
-			else filterbox->fgcolor(color_rgb(0x666666));
 		}
 	});
 
@@ -816,8 +815,8 @@ void SaveSettings()
 void Data::apply_filter()
 {
 	index.clear();
-	string fname_filter = strlower(filter.filename);
-	string dlg_filter = strlower(filter.dialogue);
+	string fname_filter{strlower(filter.filename)};
+	string dlg_filter{strlower(filter.dialogue)};
 
 	for(auto &plug : (*this)[filter.game])
 	{
@@ -868,10 +867,11 @@ void PopulateList()
 		return cells;
 	};
 	
-	//API::update_window(*info);
 	list1->auto_draw(false);
 	list1->erase();
 	db.apply_filter();
+	if(db.index.empty() && filterbox->caption().size()>1) filterbox->fgcolor(color_rgb(0xbb2222));
+	else filterbox->fgcolor(color_rgb(0x666666));
 
 	size_t total_results(0);
 	for(auto &vtype : db.index)
@@ -1715,11 +1715,10 @@ void ExtractSelected()
 				}
 				pos++; threads--;
 			};
-			//cout << "conversion loop starting" << endl;
+
 			chronometer t;
 			for(auto item : lbout.at(0))
 			{
-
 				thread(extrfn, item).detach();
 				while(threads >= conf.maxthreads) Sleep(20);
 				if(pfptr && !abort && t.elapsed_ms() >= 50)
@@ -1734,7 +1733,6 @@ void ExtractSelected()
 
 			if(errors.size())
 			{
-				auto scrh = screen().from_window(fm).area().height;
 				form errfm{fm, {1100, 700}, appear::decorate<appear::minimize, appear::maximize, appear::sizable>()};
 				API::track_window_size(fm, {1024, 768}, false);
 				errfm.icon(paint::image{wstring{self_path}});
