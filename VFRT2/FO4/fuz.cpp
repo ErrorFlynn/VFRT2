@@ -79,7 +79,7 @@ inline bool is_ascii(const wstring &str)
 
 string fuz_extract(const string &buffer, wstring destdir, string fname, bool cvt, bool lip)
 {
-	static mutex mtx;
+	static std::mutex mtx;
 	if(destdir.back() != '\\') destdir.push_back('\\');
 
 	wstring fnamew;
@@ -89,7 +89,7 @@ string fuz_extract(const string &buffer, wstring destdir, string fname, bool cvt
 	wstring cmdline{xenc + L" \"" + xwmfile + L"\" \"" + wavfile + L" \""};
 	bool ascii(is_ascii(cmdline));
 
-	ofstream f(xwmfile, ofstream::binary|ofstream::trunc);
+	std::ofstream f(xwmfile, std::ofstream::binary|std::ofstream::trunc);
 	if(!f.good())
 	{
 		string xwmstr, lasterr{GetLastErrorStr()};
@@ -108,7 +108,7 @@ string fuz_extract(const string &buffer, wstring destdir, string fname, bool cvt
 	if(lip && lipsize)
 	{
 		wstring lipfname{fnamew.substr(0, fnamew.rfind('.')) + L".lip"};
-		f.open(destdir + lipfname, ofstream::binary|ofstream::trunc);
+		f.open(destdir + lipfname, std::ofstream::binary|std::ofstream::trunc);
 		f.write(&buffer[12], lipsize);
 		f.close();
 	}

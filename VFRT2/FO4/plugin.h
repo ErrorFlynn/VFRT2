@@ -13,12 +13,9 @@ typedef unsigned uint32;
 typedef unsigned long long uint64;
 typedef int int32;
 
-using namespace std;
-
 
 class plugin
 {
-	
 	// 24 bytes
 	struct GRUP
 	{
@@ -31,24 +28,8 @@ class plugin
 		uint16	version;
 		uint16	unk2;
 	};
-
-#pragma pack(push, 1)
-	struct VTYP // 30 bytes without the string
-	{
-		char	type[4];	// "VTYP"
-		uint32	dataSize;
-		uint32	flags;
-		uint32	id; // Record (form) identifier. TES4 records have a FormId of 0.
-		uint32	revision;
-		uint16	version;
-		uint16	unknown;
-		char	EDID[4] = {'E', 'D', 'I', 'D'};
-		uint16	edid_size; // size of edid_string, including null terminator
-		string	edid_string;
-	};
-#pragma pack(pop)
 	
-	typedef function<bool(uint32 amount, uint32 value)> cb;
+	typedef std::function<bool(uint32 amount, uint32 value)> cb;
 	cb cbfn;
 	bool kill;
 
@@ -64,8 +45,8 @@ class plugin
 		line(uint32 i, string s) : fname(s), ilstring(i) {}
 	};
 
-	vector<line> lines_;
-	vector<string> vtypes;
+	std::vector<line> lines_;
+	std::vector<string> vtypes;
 
 public:
 	plugin(wstring fnamew, cb cb_fn = nullptr) : kill(false) { if(cb_fn) cbfn = cb_fn; load(fnamew); }
@@ -73,9 +54,9 @@ public:
 	bool load(wstring);
 	void clear();
 	void callback(cb fn) { cbfn = move(fn); }
-	const vector<line>& lines() { return lines_; }
+	const std::vector<line>& lines() { return lines_; }
 	const filepath& path() const { return fname_; }
 	string last_error(){ return error; }
 	wstring last_errorw(){ mbtowc(error, errorw); return errorw; }
-	const vector<string>& voicetypes() { return vtypes; }
+	const std::vector<string>& voicetypes() { return vtypes; }
 };

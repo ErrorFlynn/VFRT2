@@ -8,11 +8,13 @@
 #include <comdef.h>
 #include <iostream>
 #include <mutex>
+#include <assert.h>
 
 #pragma warning( disable : 4800 4267 4996)
 
-using namespace std;
-
+using string = std::string;
+using wstring = std::wstring;
+using namespace std::string_literals;
 
 class filepath
 {
@@ -79,7 +81,7 @@ bool CopyToClipboard(const wstring&, HWND);
 // returns path with trailing backslash
 wstring MakeTempFolder(wstring = L"VFRT2"); 
 
-template<typename T> bool FileExist(const T &fname) { return experimental::filesystem::exists(fname); }
+template<typename T> bool FileExist(const T &fname) { return std::experimental::filesystem::exists(fname); }
 
 static DWORD NumberOfProcessors()
 {
@@ -97,13 +99,13 @@ class chronometer
 
 public:
 	chronometer() { reset(); }
-	void stop() { stopped = true; elapsed_ = (chrono::system_clock::now().time_since_epoch().count()-start)/10000; }
-	void reset() { stopped = false; elapsed_ = 0; start = chrono::system_clock::now().time_since_epoch().count(); }
+	void stop() { stopped = true; elapsed_ = (std::chrono::system_clock::now().time_since_epoch().count()-start)/10000; }
+	void reset() { stopped = false; elapsed_ = 0; start = std::chrono::system_clock::now().time_since_epoch().count(); }
 
 	long long elapsed_ms()
 	{ 
 		if(stopped) return elapsed_;
-		else return (chrono::system_clock::now().time_since_epoch().count()-start)/10000;
+		else return (std::chrono::system_clock::now().time_since_epoch().count()-start)/10000;
 	}
 
 	long long elapsed_s() { return elapsed_ms()/1000; }

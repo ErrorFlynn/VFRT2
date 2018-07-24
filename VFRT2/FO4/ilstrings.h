@@ -9,7 +9,7 @@
 typedef unsigned short uint16;
 typedef unsigned uint32;
 typedef unsigned long long uint64;
-using namespace std;
+
 
 
 class ilstrings
@@ -20,16 +20,16 @@ class ilstrings
 		uint32	offset;	// Offset (relative to beginning of data) to the string. Entries are not required to be sequential.
 	};
 
-	typedef function<bool(uint32, uint32)> cb;
+	typedef std::function<bool(uint32, uint32)> cb;
 	cb cbfn;
 
 	uint32 entrycount;
 	uint32 datasize;
-	vector<entry> entries;
+	std::vector<entry> entries;
 
 	wstring fnamew_, errorw;
 	string error, fname_;
-	unordered_map<uint32, string> table;
+	std::unordered_map<uint32, string> table;
 	int getcount;
 
 public:

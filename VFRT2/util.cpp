@@ -77,8 +77,8 @@ wstring MakeTempFolder(wstring folder)
 
 string to_hex_string(unsigned i)
 {
-	stringstream ss;
-	ss << hex << i;
+	std::stringstream ss;
+	ss << std::hex << i;
 	return "0x" + ss.str();
 }
 
@@ -118,6 +118,7 @@ filepath::filepath(const wstring s)
 
 bool CopyToClipboard(const wstring &str, HWND hwnd)
 {
+	if(str.empty()) return false;
 	if(!OpenClipboard(hwnd)) return false;
 	if(!EmptyClipboard()) return false;
 	size_t buflen = (str.size()+1)*2;

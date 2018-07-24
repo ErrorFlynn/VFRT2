@@ -18,7 +18,7 @@ bool plugin::load(wstring fnamew)
 		return false;
 	}
 
-	ifstream f(fnamew, ifstream::binary);
+	std::ifstream f(fnamew, std::ifstream::binary);
 	if(f.fail())
 	{
 		error = __FUNCTION__ " - failed to open plugin file:\n" + string(fname) + "\nError: " + GetLastErrorStr();
@@ -32,14 +32,14 @@ bool plugin::load(wstring fnamew)
 
 	string data;
 	try { data.resize(fsize, '\0'); }
-	catch(exception &e)
+	catch(std::exception &e)
 	{
 		error = __FUNCTION__ " - C++ exception encountered: " + string(e.what());
 		return false;
 	}
 
 	try { f.read(&data.front(), fsize); }
-	catch(exception &e)
+	catch(std::exception &e)
 	{
 		error = __FUNCTION__ " - C++ exception encountered: " + string(e.what());
 		return false;
@@ -53,6 +53,11 @@ bool plugin::load(wstring fnamew)
 		return false;
 	}
 
+	uint16 ver;
+	f.seekg(32);
+	f.read((char*)&ver, 2);
+	bool fo4{ver == 0x3f73};
+	const string SUBREC{fo4 ? "TRDA" : "TRDT"};
 	unsigned INFOcount(0);
 	while(gpos != string::npos && !kill)
 	{
@@ -69,22 +74,22 @@ bool plugin::load(wstring fnamew)
 				INFOcount++;
 				uint32 formid(0);
 				memcpy(&formid, &igp[ipos+12], 4);
-				stringstream ss;
+				std::stringstream ss;
 				ss.width(8);
 				ss.fill('0');
-				ss << hex << right << formid;
+				ss << std::hex << std::right << formid;
 				string hex = ss.str();
 				hex[1] = '0';
 
-				auto tpos = igp.find("TRDA", ipos+34);
+				auto tpos = igp.find(SUBREC, ipos+34);
 				ipos = igp.find("INFO", ipos+1);
 				while(tpos != string::npos)
 				{
 					if(cbfn) kill = cbfn(0, gpos+tpos);
-					uint32 ilstring(*(uint32*)&igp[tpos+32]);
-					char response_number = igp[tpos+10] + 0x30;
+					uint32 ilstring(*(uint32*)&igp[tpos+36-4*fo4]);
+					char response_number = igp[tpos+18-8*fo4] + 0x30; // must be tpos+18 for Skyrim SE apparently
 					lines_.emplace_back(ilstring, hex + '_' + response_number + ".fuz");
-					tpos = igp.find("TRDA", tpos+32);
+					tpos = igp.find(SUBREC, tpos+36-4*fo4);
 					if(ipos != string::npos && tpos > ipos) tpos = string::npos;
 				}
 

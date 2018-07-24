@@ -2,9 +2,7 @@
 #include <vector>
 #include <string>
 
-using namespace std;
 
-extern wstring xenc;
+extern std::wstring xenc;
 
-string fuz_extract(const string &buffer, wstring destdir, string fname, bool cvt=true, bool lip=false);
-//unsigned long RunPipedProcess(wstring cmdline, string &output, bool force_output);
+std::string fuz_extract(const std::string &buffer, std::wstring destdir, std::string fname, bool cvt=true, bool lip=false);

@@ -5,7 +5,7 @@ bool ilstrings::load(wstring fnamew)
 {
 	string fname;
 	wctomb(fnamew, fname);
-	ifstream f(fnamew, ifstream::binary);
+	std::ifstream f(fnamew, std::ifstream::binary);
 	if(f.fail())
 	{
 		error = __FUNCTION__ " - failed to open strings file:\n" + fname + "\nError: " + GetLastErrorStr();
@@ -15,7 +15,7 @@ bool ilstrings::load(wstring fnamew)
 	f.read((char*)&entrycount, 4);
 	f.read((char*)&datasize, 4);
 	try { entries.resize(entrycount); }
-	catch(exception &e)
+	catch(std::exception &e)
 	{
 		error = __FUNCTION__ " - C++ exception encountered: " + string(e.what());
 		return false;
@@ -26,7 +26,7 @@ bool ilstrings::load(wstring fnamew)
 		f.read((char*)&entry.offset, 4);
 	}
 
-	wstring esize = to_wstring(entries.size());
+	wstring esize = std::to_wstring(entries.size());
 	if(cbfn) cbfn(entries.size(), 0);
 	uint32 datapos = f.tellg();
 	for(auto &entry : entries)
@@ -52,8 +52,8 @@ const string& ilstrings::get(uint32 id)
 {
 	string *pstr(nullptr);
 	try { pstr = &table.at(id); }
-	catch(const out_of_range&) {
-		error = __FUNCTION__ " - no string exists with id " + to_hex_string(id) + " (" + to_string(id) + ")";
+	catch(const std::out_of_range&) {
+		error = __FUNCTION__ " - no string exists with id " + to_hex_string(id) + " (" + std::to_string(id) + ")";
 	}
 	if(pstr) { error.clear(); return *pstr; }
 	else return error;
