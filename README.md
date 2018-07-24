@@ -11,4 +11,4 @@ The Nana library has been modified in the following ways:
   * `void trigger::mouse_wheel(graph_reference, const arg_wheel&)` changed to use the system setting for the number of lines scrolled at a time
 
 * widget_iterator.hpp:
-- made the class members public to correct what looks like a bug, and avoid the resulting build errors for VFRT2
+  * made the class members public to correct what looks like a bug, and avoid the resulting build errors for VFRT2
