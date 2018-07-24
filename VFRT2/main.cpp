@@ -551,12 +551,13 @@ void NewData(bool fo4)
 	gpstrings["ibox2"] << ibox2;
 	gpstrings["info2"] << info2;
 
-	nana::group gpba2(fm, "<bold color=0x71342F size=10 font=\"Tahoma\">Step 3: Get directory structure info from ba2 archive</>", true);
+	nana::group gpba2(fm, "<bold color=0x71342F size=10 font=\"Tahoma\">Step 3: Get directory structure info from "s 
+		+ (fo4 ? "ba2" : "bsa") + " archive</>", true);
 	gpba2.bgcolor(clr1);
 	gpba2.div("vert margin=[10,10,0,15] <weight=37 margin=[5,5,0,0]<ibox3 weight=32><weight=15><info3>>"
 		"<weight=62 margin=[17,5,16,0] <btnba2 weight=128><weight=15><progba2>>");
 	fm["gp3"] << gpba2;
-	nana::button btnba2(gpba2, "Choose ba2 archive");
+	nana::button btnba2(gpba2, "Choose "s + (fo4 ? "ba2" : "bsa") + " archive");
 	btnba2.bgcolor(bgbtn);
 
 	progbar progba2(gpba2);
