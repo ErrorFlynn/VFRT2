@@ -989,9 +989,9 @@ void PlaySelected()
 	}
 	else
 	{
-		assert(gamename == "Skyrim SE");
-		if(fo4dir.empty() && (fo4dir = GetGameFolder()).empty())
-			if((fo4dir = BrowseForGameFolder(true, hwnd)).empty())
+		//assert(gamename == "Skyrim SE");
+		if(sksedir.empty() && (sksedir = GetGameFolder(false)).empty())
+			if((sksedir = BrowseForGameFolder(false, hwnd)).empty())
 				return;
 		gamedir = sksedir;
 	}
