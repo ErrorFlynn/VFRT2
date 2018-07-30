@@ -24,8 +24,8 @@
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 	processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-#define TITLE "Voice File Reference Tool 2.1.0"
-#define TITLEW L"Voice File Reference Tool 2.1.0"
+#define TITLE "Voice File Reference Tool v2.1.2"
+#define TITLEW L"Voice File Reference Tool v2.1.2"
 
 
 wstring inifile, fo4dir, sksedir, xenc;
@@ -659,27 +659,28 @@ class cooltree : public nana::treebox
 						};
 						const bool first_node{text == tree->top_nodes_.front().text()};
 						textcolor = nana::color_rgb(0x667788);
-						graph.typeface({"Narkisim", 16});
+						graph.typeface({"Franklin Gothic Medium", 15});
 						nana::color outline_color = nana::color_rgb(0xf4fafe);
 						int outline_size = 2;
-						graph.string({20, attr.area.y + 3-outline_size+first_node}, text, outline_color);
-						graph.string({20, attr.area.y + 3+outline_size+first_node}, text, outline_color);
-						graph.string({20-outline_size, attr.area.y + 3-outline_size+first_node}, text, outline_color);
-						graph.string({20+outline_size, attr.area.y + 3-outline_size+first_node}, text, outline_color);
-						graph.string({20-outline_size, attr.area.y + 3+outline_size+first_node}, text, outline_color);
-						graph.string({20+outline_size, attr.area.y + 3+outline_size+first_node}, text, outline_color);
+						
+						graph.string({20, attr.area.y -1 -outline_size+first_node}, text, outline_color);
+						graph.string({20, attr.area.y -1 +outline_size+first_node}, text, outline_color);
+						graph.string({20-outline_size, attr.area.y -1 -outline_size+first_node}, text, outline_color);
+						graph.string({20+outline_size, attr.area.y -1 -outline_size+first_node}, text, outline_color);
+						graph.string({20-outline_size, attr.area.y -1 +outline_size+first_node}, text, outline_color);
+						graph.string({20+outline_size, attr.area.y -1 +outline_size+first_node}, text, outline_color);
 						if(outline_size > 1)
 						{
 							outline_color = offset_color(outline_color, -25);
 							outline_size = 1;
-							graph.string({20, attr.area.y + 3-outline_size+first_node}, text, outline_color);
-							graph.string({20, attr.area.y + 3+outline_size+first_node}, text, outline_color);
-							graph.string({20-outline_size, attr.area.y + 3-outline_size+first_node}, text, outline_color);
-							graph.string({20+outline_size, attr.area.y + 3-outline_size+first_node}, text, outline_color);
-							graph.string({20-outline_size, attr.area.y + 3+outline_size+first_node}, text, outline_color);
-							graph.string({20+outline_size, attr.area.y + 3+outline_size+first_node}, text, outline_color);
+							graph.string({20, attr.area.y -1 -outline_size+first_node}, text, outline_color);
+							graph.string({20, attr.area.y -1 +outline_size+first_node}, text, outline_color);
+							graph.string({20-outline_size, attr.area.y -1 -outline_size+first_node}, text, outline_color);
+							graph.string({20+outline_size, attr.area.y -1 -outline_size+first_node}, text, outline_color);
+							graph.string({20-outline_size, attr.area.y -1 +outline_size+first_node}, text, outline_color);
+							graph.string({20+outline_size, attr.area.y -1 +outline_size+first_node}, text, outline_color);
 						}
-						graph.string({20, attr.area.y + 3 + first_node}, text, textcolor); // original
+						graph.string({20, attr.area.y -1 + first_node}, text, textcolor); // original
 						graph.typeface(normal_font);
 							
 						bool draw_top_line{true};

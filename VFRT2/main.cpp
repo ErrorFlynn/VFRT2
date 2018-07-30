@@ -165,7 +165,7 @@ void RunGUI()
 
 	nana::button btnplay(fm);
 	::btnplay = &btnplay;
-	btnplay.typeface({11, "Meiryo UI"});
+	btnplay.typeface({11, "Tahoma"});
 	btnplay.caption(u8"\u25b6");
 	btnplay.bgcolor(nana::colors::white);
 	btnplay.events().click(PlaySelected);
@@ -176,12 +176,12 @@ void RunGUI()
 	nana::label lbl_filter(fm);
 	lbl_filter.caption("Filter:");
 	lbl_filter.fgcolor(nana::color_rgb(0x995533));
-	lbl_filter.typeface({"Verdana", 11, nana::detail::font_style(1000)});
+	lbl_filter.typeface({"Verdana", 11, {1000}});
 
 	nana::textbox fltbox(fm);
 	filterbox = &fltbox;
 	fltbox.multi_lines(false);
-	fltbox.typeface({"Courier New", 13, nana::detail::font_style(1000)});
+	fltbox.typeface({"Courier New", 13, {1000}});
 	fltbox.fgcolor(nana::color_rgb(0x666666));
 	fltbox.events().text_changed([](const nana::arg_textbox &arg)
 	{
@@ -231,8 +231,9 @@ void RunGUI()
 	nana::button btnmenu(fm);
 	btnmenu.fgcolor(nana::color_rgb(0x666666));
 	btnmenu.bgcolor(nana::colors::white);
-	btnmenu.typeface({"Meiryo UI", 18});
+	btnmenu.typeface({"Consolas", 18});
 	btnmenu.caption(u8"\u2261");
+
 	btnmenu.events().mouse_up([&btnmenu](const nana::arg_mouse &arg)
 	{
 		auto handler = [](nana::menu::item_proxy &item)
@@ -1561,9 +1562,10 @@ void ExtractSelected()
 		rect rgpopt, rlbin;
 		nana::API::get_window_rectangle(gpopt, rgpopt);
 		nana::API::get_window_rectangle(lbin, rlbin);
-		g.typeface(nana::paint::font("Meiryo UI", 7));
-		g.string({rgpopt.x + int(rgpopt.width) + 0, rgpopt.y + int(rgpopt.height/2) - 5}, u8"\u25c0\u25b6", nana::colors::light_grey);
-		g.string({rlbin.x + int(rlbin.width) + 1, rlbin.y + int(rlbin.height/2) - 20}, u8"\u25c0\u25b6", nana::colors::light_grey);
+		nana::paint::image img_splitter;
+		img_splitter.open(ico_splitter, sizeof ico_splitter);
+		img_splitter.paste(g, {rgpopt.x + int(rgpopt.width) + 1, rgpopt.y + int(rgpopt.height/2) - 5});
+		img_splitter.paste(g, {rlbin.x + int(rlbin.width) + 2, rlbin.y + int(rlbin.height/2) - 20});
 	});
 
 	fm.events().unload([&fm, &gpopt, &lbin, &lbout, &gpren]
